@@ -1,5 +1,6 @@
 import { DBConfigMongo } from "./configs/database";
 import { Db, MongoClient } from "mongodb";
+import { IUser } from "./modules/User/model/IUser";
 
 class DB {
     private mongoClient!: MongoClient;
@@ -47,6 +48,10 @@ class DB {
             throw error;
         }
     };
+
+    get users() {
+        return this.db.collection<IUser>("users");
+    }
 
     getDB(): Db {
         if (!this.db) {

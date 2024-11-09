@@ -4,11 +4,13 @@
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./",
+    "sourceMap": true,                           /* Generates corresponding '.map' file. */
     "strict": true,
+    "strictFunctionTypes": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["*.ts"],
+  "include": ["*.ts", "DB.ts"],
   "exclude": ["node_modules"]
 }

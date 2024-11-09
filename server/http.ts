@@ -3,6 +3,7 @@ import cors from "cors";
 import { createServer, Server } from "http";
 import stoppable from "stoppable";
 import { HTTPCONF } from "./configs/http";
+import { router as AuthRouter } from "./modules/Auth/routes/api/v1";
 
 export class HttpServer {
     app = express();
@@ -17,6 +18,7 @@ export class HttpServer {
         this.app.use(cors({ allowedHeaders: "*", origin: "*" }));
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(express.json());
+        this.app.use("/api/v1", AuthRouter)
 
     }
 
