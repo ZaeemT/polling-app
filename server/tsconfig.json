@@ -9,8 +9,10 @@
     "strictFunctionTypes": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["*.ts", "DB.ts"],
+  // "include": [""],
+  "include": ["*.ts", "DB.ts, src/**/*", "src/types/express.d.ts"],
   "exclude": ["node_modules"]
 }
