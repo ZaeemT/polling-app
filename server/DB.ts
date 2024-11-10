@@ -17,31 +17,18 @@ class DB {
                 this.db = this.mongoClient.db(dbConf.dbname);
             }
 
-            // Set up event listeners
-            this.mongoClient.on("serverDescriptionChanged", (event) => {
-                console.log("Server description changed:", event);
-            });
-            this.mongoClient.on("serverHeartbeatStarted", (event) => {
-                console.log("Server heartbeat started:", event);
-            });
-            this.mongoClient.on("serverHeartbeatSucceeded", (event) => {
-                console.log("Server heartbeat succeeded:", event);
-            });
-            this.mongoClient.on("serverHeartbeatFailed", (event) => {
-                console.error("Server heartbeat failed:", event);
-            });
-            this.mongoClient.on("serverOpening", (event) => {
-                console.log("Server opening:", event);
-            });
-            this.mongoClient.on("serverClosed", (event) => {
-                console.log("Server closed:", event);
-            });
-            this.mongoClient.on("close", () => {
-                console.log("Connection closed");
-            });
-            this.mongoClient.on("timeout", () => {
-                console.error("Connection timeout");
-            });
+            this.mongoClient.on("serverDescriptionChanged", (event) => { });
+            this.mongoClient.on("serverHeartbeatStarted", (event) => { });
+            this.mongoClient.on("serverHeartbeatSucceeded", (event) => { });
+            this.mongoClient.on("serverHeartbeatFailed", (event) => { });
+            this.mongoClient.on("serverOpening", (event) => { });
+            this.mongoClient.on("serverClosed", (event) => { });
+            this.mongoClient.on("close", () => { });
+            this.mongoClient.on("connectionClosed", (event) => { });
+            this.mongoClient.on("connectionCreated", (event) => { });
+            this.mongoClient.on("timeout", () => { });
+            this.mongoClient.on("topologyOpening", (event) => { });
+            this.mongoClient.on("topologyClosed", (event) => { });
 
             return this.db;
         } catch (error) {

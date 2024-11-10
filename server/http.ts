@@ -22,7 +22,7 @@ export class HttpServer {
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(express.json());
         this.app.use("/api/v1", AuthRouter),
-            this.app.use("/api/v1/poll", PollRouter)
+        this.app.use("/api/v1/poll", PollRouter)
 
     }
 
