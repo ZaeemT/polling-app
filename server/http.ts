@@ -4,7 +4,7 @@ import { createServer, Server } from "http";
 import stoppable from "stoppable";
 import { HTTPCONF } from "./configs/http";
 import { router as AuthRouter } from "./modules/Auth/routes/api/v1";
-
+import { router as PollRouter } from "./modules/Poll/routes/api/v1";
 export class HttpServer {
     app = express();
     private server!: Server;
@@ -18,7 +18,8 @@ export class HttpServer {
         this.app.use(cors({ allowedHeaders: "*", origin: "*" }));
         this.app.use(express.urlencoded({ extended: false }));
         this.app.use(express.json());
-        this.app.use("/api/v1", AuthRouter)
+        this.app.use("/api/v1", AuthRouter),
+        this.app.use("/api/v1/poll", PollRouter)
 
     }
 

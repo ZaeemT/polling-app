@@ -1,6 +1,7 @@
 import { DBConfigMongo } from "./configs/database";
 import { Db, MongoClient } from "mongodb";
 import { IUser } from "./modules/User/model/IUser";
+import { IPoll } from "./modules/Poll/model/IPoll";
 
 class DB {
     private mongoClient!: MongoClient;
@@ -51,6 +52,9 @@ class DB {
 
     get users() {
         return this.db.collection<IUser>("users");
+    }
+    get polls() {
+        return this.db.collection<IPoll>("polls")
     }
 
     getDB(): Db {
