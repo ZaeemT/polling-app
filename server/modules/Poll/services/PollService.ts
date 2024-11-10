@@ -49,6 +49,16 @@ class PollService {
             return Utils.getResponse("Poll creation failed", 500);
         }
     }
+
+    getPolls = async () => {
+        const polls = await db.polls.find({}).toArray();
+
+        if (polls.length > 0) {
+            return Utils.getResponse("All polls fetched", 200, { polls });
+        } else {
+            return Utils.getResponse("There are no active polls", 500);
+        }
+    }
 }
 
 const pollService = new PollService();

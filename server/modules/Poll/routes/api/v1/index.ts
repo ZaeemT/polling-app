@@ -4,6 +4,7 @@ import { createPollValidator } from "../../../validator/pollValidator";
 import { validateRequestBody } from "../../../../../utils/validator/ValidateRequest";
 import { pollController } from "../../../controller/PollController";
 import { requireAuth } from "../../../../../middlewares/requireAuth";
+import { optionalAuth } from "../../../../../middlewares/optionalAuth";
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -15,5 +16,11 @@ router.post(
     validateRequestBody(createPollValidator) as RequestHandler,
     pollController.createPoll as any
 );
+
+router.get(
+    "/",
+    optionalAuth as RequestHandler,
+    pollController.getPolls as any
+)
 
 export { router };
