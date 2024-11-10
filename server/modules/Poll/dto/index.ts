@@ -8,3 +8,13 @@ export interface CreatePollDto {
     imageType: string;
     user: IUser;
 }
+
+export interface UpdatePollDto {
+    // id: string;
+    title: string;
+    description: string;
+    options: string[];
+    image: Buffer;
+    imageType: string;
+    // user: IUser;
+}

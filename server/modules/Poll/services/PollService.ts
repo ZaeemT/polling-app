@@ -1,10 +1,11 @@
-import { CreatePollDto } from "../dto";
+import { CreatePollDto, UpdatePollDto } from "../dto";
 import { db } from "../../../DB";
 import { Utils } from "../../../utils/utils";
 // import { IUser } from "../../User/model/IUser";
 import { optimizeImage } from "../../../utils/imageShrink";
 import { IPoll } from "../model/IPoll";
 import { ulid } from "ulidx";
+import { IUser } from "../../User/model/IUser";
 
 class PollService {
     createPoll = async (createPollDto: CreatePollDto) => {
@@ -77,6 +78,57 @@ class PollService {
             return Utils.getResponse("Poll deleted successfully", 200, { poll });
         } else {
             return Utils.getResponse("Unable to delete poll", 500);
+        }
+    }
+
+    updatePoll = async (id: string, updatePollDto: UpdatePollDto, user: IUser) => {
+        const { title, description, options, image, imageType } = updatePollDto;
+
+        const exist = await db.polls.findOne({ id });
+        if (!exist) {
+            return Utils.getResponse("Poll not found", 404);
+        }
+
+        if (exist.user_id != user.id) {
+            return Utils.getResponse("Only the creator can update this poll", 403);
+        }
+
+        if (options.length < 2 || options.length > 5) {
+            return Utils.getResponse("Poll must have between 2 and 5 options.", 422);
+        }
+        const pollOptions = options.map((option: any) => ({ text: option, votes: 0 }));
+        
+        const { 
+            optimizedImage, 
+            initialSize, 
+            optimizedSize 
+        } = await optimizeImage(image);
+
+        const updatePoll: Partial<IPoll> = {
+            title,
+            description,
+            options: pollOptions,
+            image: optimizedImage,
+            imageType: imageType,
+            originalImageSize: initialSize,
+            optimizedImageSize: optimizedSize,
+            // user_id: user._id,
+            // createdAt: new Date(),
+            updatedAt: new Date(),
+            // user_id: user.id,
+        }
+
+        const poll = await db.polls.findOneAndUpdate(
+            { id }, 
+            { $set: updatePoll }, 
+            { returnDocument: 'after' }
+        );
+
+        if (poll) {
+            const response = { poll };
+            return Utils.getResponse("Poll updated successfully", 201, response);
+        } else {
+            return Utils.getResponse("Poll update failed", 500);
         }
     }
 }

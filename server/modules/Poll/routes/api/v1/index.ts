@@ -35,4 +35,11 @@ router.delete(
     pollController.deletePoll as any
 )
 
+router.put(
+    "/:id",
+    requireAuth as RequestHandler,
+    upload.single('image'),
+    pollController.updatePoll as any
+)
+
 export { router };
