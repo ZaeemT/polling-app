@@ -4,13 +4,7 @@ import { JWT_SECRET } from "../utils/constants";
 import { db } from "../DB";
 import { IUser } from "../modules/User/model/IUser";
 
-declare global {
-    namespace Express {
-        interface Request {
-            user?: IUser;
-        }
-    }
-}
+
 
 export const optionalAuth = async (req: Request, res: Response, next: NextFunction) => {
     const bearer = req.headers.authorization;
