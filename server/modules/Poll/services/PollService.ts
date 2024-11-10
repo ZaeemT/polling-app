@@ -1,6 +1,7 @@
 import { CreatePollDto, UpdatePollDto, votePollDto } from "../dto";
 import { db } from "../../../DB";
 import { Utils } from "../../../utils/utils";
+import { httpServer } from "../../../http";
 // import { IUser } from "../../User/model/IUser";
 import { optimizeImage } from "../../../utils/imageShrink";
 import { IPoll } from "../model/IPoll";
@@ -161,6 +162,7 @@ class PollService {
         );
 
         if (result) {
+            httpServer.io.to(`poll-${poll.id}`).emit("pollUpdated", {result});
             return Utils.getResponse("Vote registered successfully", 200, result);
         } else {
             return Utils.getResponse("Vote failed", 500);
