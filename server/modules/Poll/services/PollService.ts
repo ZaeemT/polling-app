@@ -59,6 +59,16 @@ class PollService {
             return Utils.getResponse("There are no active polls", 500);
         }
     }
+
+    getPollsById = async (pollId: string) => {
+        const poll = await db.polls.findOne({ id:pollId });
+
+        if (poll) {
+            return Utils.getResponse("Poll fetched", 200, { poll });
+        } else {
+            return Utils.getResponse("Poll does not exist", 500);
+        }
+    }
 }
 
 const pollService = new PollService();

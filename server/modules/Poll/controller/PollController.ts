@@ -26,6 +26,11 @@ class PollController {
         const { status_code, body } = await pollService.getPolls();
         return res.status(status_code).json(body);
     }
+
+    getPollById = async (req: Request, res: Response) => {
+        const { status_code, body } = await pollService.getPollsById(req.params.id);
+        return res.status(status_code).json(body); 
+    }
 }
 
 const pollController = new PollController();

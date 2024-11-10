@@ -23,4 +23,10 @@ router.get(
     pollController.getPolls as any
 )
 
+router.get(
+    "/:id",
+    optionalAuth as RequestHandler,
+    pollController.getPollById as any
+)
+
 export { router };
