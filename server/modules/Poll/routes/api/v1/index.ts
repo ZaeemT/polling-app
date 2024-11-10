@@ -29,4 +29,10 @@ router.get(
     pollController.getPollById as any
 )
 
+router.delete(
+    "/:id",
+    requireAuth as RequestHandler,
+    pollController.deletePoll as any
+)
+
 export { router };

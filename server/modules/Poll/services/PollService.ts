@@ -69,6 +69,16 @@ class PollService {
             return Utils.getResponse("Poll does not exist", 500);
         }
     }
+
+    deletePoll = async (id: string) => {
+        const poll = await db.polls.deleteOne({ id });
+
+        if (poll) {
+            return Utils.getResponse("Poll deleted successfully", 200, { poll });
+        } else {
+            return Utils.getResponse("Unable to delete poll", 500);
+        }
+    }
 }
 
 const pollService = new PollService();
