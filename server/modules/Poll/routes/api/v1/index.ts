@@ -1,6 +1,6 @@
 import { RequestHandler, Router } from "express";
 import multer from "multer";
-import { createPollValidator } from "../../../validator/pollValidator";
+import { createPollValidator, updatePollValidator, votePollValidator } from "../../../validator/pollValidator";
 import { validateRequestBody } from "../../../../../utils/validator/ValidateRequest";
 import { pollController } from "../../../controller/PollController";
 import { requireAuth } from "../../../../../middlewares/requireAuth";
@@ -39,7 +39,15 @@ router.put(
     "/:id",
     requireAuth as RequestHandler,
     upload.single('image'),
+    validateRequestBody(updatePollValidator) as RequestHandler,
     pollController.updatePoll as any
+)
+
+router.post(
+    "/:id/vote",
+    optionalAuth as RequestHandler,
+    validateRequestBody(votePollValidator) as RequestHandler,
+    pollController.vote as any
 )
 
 export { router };

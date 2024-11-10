@@ -51,6 +51,10 @@ class PollController {
         return res.status(status_code).json(body);
     }
 
+    vote = async (req: Request, res: Response) => {
+        const { status_code, body } = await pollService.vote(req.params.id, req.body);
+        return res.status(status_code).json(body);
+    }
 }
 
 const pollController = new PollController();

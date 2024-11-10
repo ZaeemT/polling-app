@@ -18,3 +18,9 @@ export interface UpdatePollDto {
     imageType: string;
     // user: IUser;
 }
+
+export interface votePollDto {
+    option: string;
+    user_id?: string;
+    ipAddress?: string;
+}

@@ -13,4 +13,6 @@ export interface IPoll {
     createdAt?: Date;
     updatedAt?: Date;
     user_id: string;
+    anonymousVotes: string[]; // Array of IP addresses for anonymous voters
+    userVotes: string[]; // Array of user IDs who voted
 }

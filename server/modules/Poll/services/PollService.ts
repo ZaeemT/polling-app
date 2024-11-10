@@ -1,4 +1,4 @@
-import { CreatePollDto, UpdatePollDto } from "../dto";
+import { CreatePollDto, UpdatePollDto, votePollDto } from "../dto";
 import { db } from "../../../DB";
 import { Utils } from "../../../utils/utils";
 // import { IUser } from "../../User/model/IUser";
@@ -20,11 +20,11 @@ class PollService {
             return Utils.getResponse("Poll must have between 2 and 5 options.", 422);
         }
         const pollOptions = options.map((option) => ({ text: option, votes: 0 }));
-        
-        const { 
-            optimizedImage, 
-            initialSize, 
-            optimizedSize 
+
+        const {
+            optimizedImage,
+            initialSize,
+            optimizedSize
         } = await optimizeImage(image);
 
         const newPoll: IPoll = {
@@ -40,6 +40,8 @@ class PollService {
             createdAt: new Date(),
             updatedAt: new Date(),
             user_id: user.id,
+            anonymousVotes: [],
+            userVotes: []
         }
 
         const result = await db.polls.insertOne(newPoll);
@@ -62,7 +64,7 @@ class PollService {
     }
 
     getPollsById = async (pollId: string) => {
-        const poll = await db.polls.findOne({ id:pollId });
+        const poll = await db.polls.findOne({ id: pollId });
 
         if (poll) {
             return Utils.getResponse("Poll fetched", 200, { poll });
@@ -97,11 +99,11 @@ class PollService {
             return Utils.getResponse("Poll must have between 2 and 5 options.", 422);
         }
         const pollOptions = options.map((option: any) => ({ text: option, votes: 0 }));
-        
-        const { 
-            optimizedImage, 
-            initialSize, 
-            optimizedSize 
+
+        const {
+            optimizedImage,
+            initialSize,
+            optimizedSize
         } = await optimizeImage(image);
 
         const updatePoll: Partial<IPoll> = {
@@ -119,8 +121,8 @@ class PollService {
         }
 
         const poll = await db.polls.findOneAndUpdate(
-            { id }, 
-            { $set: updatePoll }, 
+            { id },
+            { $set: updatePoll },
             { returnDocument: 'after' }
         );
 
@@ -130,6 +132,40 @@ class PollService {
         } else {
             return Utils.getResponse("Poll update failed", 500);
         }
+    }
+
+    vote = async (id: string, votePollDto: votePollDto) => {
+        const { option, user_id, ipAddress } = votePollDto;
+
+        const poll = await db.polls.findOne({ id });
+        if (!poll) {
+            return Utils.getResponse("Poll not found", 404);
+        }
+
+        if (user_id && Array.isArray(poll.userVotes) && poll.userVotes.includes(user_id)) {
+            return Utils.getResponse("User has already voted", 500);
+        }
+        if (ipAddress && Array.isArray(poll.anonymousVotes) && poll.anonymousVotes.includes(ipAddress)) {
+            return Utils.getResponse("Anonymous user has already voted", 500);
+        }
+
+        const result = await db.polls.findOneAndUpdate(
+            { id, 'options.text': option },
+            {
+                $inc: { 'options.$.votes': 1 },
+                $push: user_id ?
+                    { userVotes: user_id } :
+                    { anonymousVotes: ipAddress }
+            },
+            { returnDocument: 'after' }
+        );
+
+        if (result) {
+            return Utils.getResponse("Vote registered successfully", 200, result);
+        } else {
+            return Utils.getResponse("Vote failed", 500);
+        }
+
     }
 }
 
