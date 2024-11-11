@@ -4,6 +4,7 @@ import { ModeToggle } from "./components/mode-toggle"
 import { AuthProvider } from "./contexts/AuthContext"
 import SignIn from './views/auth/Login'
 import { Toaster } from './components/ui/toaster'
+import SignUp from './views/auth/Register'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
               <ModeToggle />
               <Routes>
                 <Route path='/login' element={<SignIn />} />
+                <Route path='/register' element={<SignUp />} />
               </Routes>
             </main>
             <Toaster />
