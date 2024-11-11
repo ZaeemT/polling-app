@@ -9,5 +9,5 @@ export const constants = {
 export const apiUrl = {
   login: 'login',
   register: 'register',
-  chatbot: 'qa/'
+  poll: 'poll',
 }

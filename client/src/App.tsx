@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from "@/components/theme-provider"
-import { ModeToggle } from "./components/mode-toggle"
 import { AuthProvider } from "./contexts/AuthContext"
 import SignIn from './views/auth/Login'
 import { Toaster } from './components/ui/toaster'
 import SignUp from './views/auth/Register'
 import Navbar from './components/Navbar'
+import Polls from './views/poll/Polls'
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
             <Navbar />
             <main className="container mx-auto px-4 py-8">
               <Routes>
+                <Route path='/' element={<Polls />} />
                 <Route path='/login' element={<SignIn />} />
                 <Route path='/register' element={<SignUp />} />
               </Routes>
