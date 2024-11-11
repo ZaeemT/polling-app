@@ -10,4 +10,5 @@ export const apiUrl = {
   login: 'login',
   register: 'register',
   poll: 'poll',
+  create_poll: 'poll/create-poll',
 }

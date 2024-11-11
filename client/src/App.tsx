@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "./contexts/AuthContext"
+import ProtectedRoute from './components/ProtectedRoutes'
 import SignIn from './views/auth/Login'
 import { Toaster } from './components/ui/toaster'
 import SignUp from './views/auth/Register'
 import Navbar from './components/Navbar'
 import Polls from './views/poll/Polls'
+import AddPoll from './views/poll/AddPoll'
 
 function App() {
   return (
@@ -19,6 +21,14 @@ function App() {
                 <Route path='/' element={<Polls />} />
                 <Route path='/login' element={<SignIn />} />
                 <Route path='/register' element={<SignUp />} />
+                <Route
+                path="/create-poll"
+                element={
+                  <ProtectedRoute>
+                    <AddPoll />
+                  </ProtectedRoute>
+                }
+              />
               </Routes>
             </main>
             <Toaster />
