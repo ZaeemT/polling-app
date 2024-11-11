@@ -30,7 +30,8 @@ const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     config.headers.set('Content-Type', 'application/json');
-    config.headers.set('Access-Control-Allow-Origin', '*');  
+    config.headers.set('Access-Control-Allow-Origin', '*');
+      
 
     return config;
   },
