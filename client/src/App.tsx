@@ -5,6 +5,7 @@ import { AuthProvider } from "./contexts/AuthContext"
 import SignIn from './views/auth/Login'
 import { Toaster } from './components/ui/toaster'
 import SignUp from './views/auth/Register'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
       <AuthProvider>
         <Router>
           <div className="min-h-screen bg-background">
+            <Navbar />
             <main className="container mx-auto px-4 py-8">
-              <ModeToggle />
               <Routes>
                 <Route path='/login' element={<SignIn />} />
                 <Route path='/register' element={<SignUp />} />
