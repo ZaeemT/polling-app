@@ -3,12 +3,23 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { DeletePoll, GetPollById, VotePoll } from '@/services/poll.service'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Poll } from '@/types'
 import { useAuth } from '@/contexts/AuthContext'
-import { Edit, Trash2 } from 'lucide-react'
+import { Edit, Loader2, Trash2 } from 'lucide-react'
 import io from 'socket.io-client'
 import axios from 'axios'
 
@@ -32,7 +43,7 @@ export default function PollDetail() {
     }, [user])
 
     useEffect(() => {
-        
+
         const socket = io('http://localhost:3000')
 
         const fetchPoll = async () => {
@@ -40,7 +51,7 @@ export default function PollDetail() {
                 const response = await GetPollById(id!)
                 setPoll(response.data.poll)
                 const base64Image = `data:${response.data.poll.imageType};base64,${response.data.poll.image}`;
-                setImageSrc(base64Image); 
+                setImageSrc(base64Image);
             } catch (error) {
                 console.error('Error fetching poll:', error)
                 toast({
@@ -68,9 +79,9 @@ export default function PollDetail() {
         }
     }, [id, toast])
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log('Poll state updated:', poll);
-    },[poll])
+    }, [poll])
 
     const handleVote = async () => {
         if (!selectedOption) return
@@ -91,7 +102,7 @@ export default function PollDetail() {
                 description: 'Your vote has been recorded successfully.',
             })
             setPoll(response.data)
-        } catch (error:any) {
+        } catch (error: any) {
             toast({
                 title: 'Error',
                 description: "You have already voted",
@@ -101,21 +112,19 @@ export default function PollDetail() {
     }
 
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete this poll?')) {
-            try {
-                await DeletePoll(id!)
-                toast({
-                    title: 'Poll Deleted',
-                    description: 'The poll has been successfully deleted.',
-                })
-                navigate('/')
-            } catch (error) {
-                toast({
-                    title: 'Error',
-                    description: 'Failed to delete the poll. Please try again.',
-                    variant: 'destructive',
-                })
-            }
+        try {
+            await DeletePoll(id!)
+            toast({
+                title: 'Poll Deleted',
+                description: 'The poll has been successfully deleted.',
+            })
+            navigate('/')
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Failed to delete the poll. Please try again.',
+                variant: 'destructive',
+            })
         }
     }
 
@@ -161,7 +170,7 @@ export default function PollDetail() {
             <CardContent>
                 {imageSrc && (
                     <img
-                        src={imageSrc} 
+                        src={imageSrc}
                         alt={poll.title}
                         className="w-full h-48 object-cover rounded-md mb-4"
                     />
@@ -196,10 +205,29 @@ export default function PollDetail() {
                             <Edit className="h-4 w-4 mr-2" />
                             Edit
                         </Button>
-                        <Button variant="destructive" onClick={handleDelete}>
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete
-                        </Button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive">
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    { isLoading ? <Loader2/>: 'Delete' }
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete your poll
+                                        and remove all associated data.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={handleDelete}>
+                                        Delete Poll
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 )}
             </CardFooter>

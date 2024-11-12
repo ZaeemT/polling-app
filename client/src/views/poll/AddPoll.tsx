@@ -25,6 +25,7 @@ type PollFormValues = z.infer<typeof pollSchema>
 
 export default function AddPoll() {
     const [isLoading, setIsLoading] = useState(false)
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
     const navigate = useNavigate()
     const { toast } = useToast()
 
@@ -110,13 +111,17 @@ export default function AddPoll() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Image</FormLabel>
+                                    {imagePreview && (
+                                        <img src={imagePreview} alt="Current Poll Image" className="mb-4 w-full h-40 object-cover" />
+                                    )}
                                     <FormControl>
                                         <Input
                                             type="file"
                                             accept="image/*"
                                             onChange={(e) => {
                                                 const file = e.target.files?.[0]
-                                                field.onChange(file || null) // Pass the file or null
+                                                field.onChange(file || null) 
+                                                setImagePreview(file ? URL.createObjectURL(file) : null)
                                             }}
                                         />
                                     </FormControl>

@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { UpdatePoll, GetPollById } from '@/services/poll.service'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -25,7 +26,7 @@ const pollSchema = z.object({
 type PollFormValues = z.infer<typeof pollSchema>
 
 export default function EditPoll() {
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const [poll, setPoll] = useState<Poll | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const { id } = useParams<{ id: string }>()
@@ -62,6 +63,7 @@ export default function EditPoll() {
                     options: data.options.map((option: { text: string }) => option.text),  
                     // image: base64Image,
                 })
+                setIsLoading(false)
             } catch (error) {
                 toast({
                     title: 'Error',
@@ -101,6 +103,26 @@ export default function EditPoll() {
         } finally {
             setIsLoading(false)
         }
+    }
+
+    if (isLoading) {
+        return (
+            <Card className="w-full max-w-2xl mx-auto">
+                <CardHeader>
+                    <Skeleton className="h-8 w-3/4" />
+                    <Skeleton className="h-4 w-1/2 mt-2" />
+                </CardHeader>
+                <CardContent>
+                    <Skeleton className="h-48 w-full mb-4" />
+                    {[...Array(3)].map((_, index) => (
+                        <div key={index} className="mb-4">
+                            <Skeleton className="h-8 w-full mb-2" />
+                            <Skeleton className="h-4 w-3/4" />
+                        </div>
+                    ))}
+                </CardContent>
+            </Card>
+        )
     }
 
     if (!poll) return null
