@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { constants } from '../utils/constants';
+import { GetToken } from './auth.service';
 
 // Setting up the Axios instance
 const axiosService: AxiosInstance = axios.create({
@@ -29,8 +30,11 @@ const api: AxiosInstance = axios.create({
 // Request interceptor 
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    config.headers.set('Content-Type', 'application/json');
-    config.headers.set('Access-Control-Allow-Origin', '*');  
+    let token = GetToken();
+    // config.headers.set('Content-Type', 'application/json');
+    config.headers.set('Access-Control-Allow-Origin', '*');
+    config.headers.set('Authorization', `Bearer ${token}`);
+      
 
     return config;
   },

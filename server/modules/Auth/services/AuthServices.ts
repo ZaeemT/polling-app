@@ -2,6 +2,7 @@ import { LoginDto, RegisterDto } from "../dto";
 import { db } from "../../../DB";
 import { Utils } from "../../../utils/utils";
 import { IUser } from "../../User/model/IUser";
+import { ulid } from "ulidx";
 // import validator from "validator";
 
 class AuthService {
@@ -38,6 +39,7 @@ class AuthService {
 
         const hashedPassword = await Utils.hashPassword(password);
         const newUser: IUser = {
+            id: ulid(),
             username,
             email,
             password: hashedPassword,

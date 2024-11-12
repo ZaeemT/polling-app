@@ -8,13 +8,13 @@ const router = Router();
 router.post(
     "/login",
     validateRequestBody(loginValidator) as RequestHandler, 
-    authController.login 
+    authController.login as any
 );
 
 router.post(
     "/register",
     validateRequestBody(registerValidator) as RequestHandler,
-    authController.register
+    authController.register as any
 )
 
 export { router };

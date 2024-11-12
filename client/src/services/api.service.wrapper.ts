@@ -10,32 +10,32 @@ export const SetBaseUrl = (): string => {
 
 
 // POST request with base URL
-export const POST = async <T>(url: string, data: any = null, config: any = null): Promise<T> => {
+export const POST = async (url: string, data: any = null, config: any = null) => {
   const response = await api.post(SetBaseUrl() + url, data, config);
   return response.data;
 };
 
 
 // GET request with optional parameters
-export const GET = async <T>(url: string, params: any = null): Promise<T> => {
+export const GET = async (url: string, params: any = null) => {
   const response = await api.get(SetBaseUrl() + url, { params });
   return response.data;
 };
 
 // PUT request with data and ID
-export const PUT = async <T>(url: string, id: string | number, data: any = null, config: any = null): Promise<T> => {
+export const PUT = async (url: string, id: string | number, data: any = null, config: any = null) => {
   const response = await api.put(SetBaseUrl() + url + "/" + id, data, config);
   return response.data;
 };
 
 // PATCH request
-export const PATCH = async <T>(url: string, data: any = null, config: any = null): Promise<T> => {
+export const PATCH = async (url: string, data: any = null, config: any = null) => {
   const response = await api.patch(SetBaseUrl() + url, data, config);
   return response.data;
 };
 
 // DELETE request
-export const DELETE = async <T>(url: string, id: string | number): Promise<T> => {
+export const DELETE = async (url: string, id: string | number) => {
   const response = await api.delete(SetBaseUrl() + url + "/" + id);
   return response.data;
 };
