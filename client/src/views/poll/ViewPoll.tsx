@@ -108,6 +108,7 @@ export default function PollDetail() {
                 description: "You have already voted",
                 variant: 'destructive',
             })
+            navigate('/')
         }
     }
 
@@ -197,7 +198,7 @@ export default function PollDetail() {
             </CardContent>
             <CardFooter className="flex justify-between">
                 <Button onClick={handleVote} disabled={!selectedOption}>
-                    Vote
+                    {isLoading ? <Loader2/> : 'Vote'}
                 </Button>
                 {user && user.id === poll.user_id && (
                     <div className="space-x-2">
