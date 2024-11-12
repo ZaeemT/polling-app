@@ -1,7 +1,7 @@
 
 # Polling App
 
-A polling app with real-time updates and anonymous voting. 
+A polling app with real-time updates and anonymous voting. I utilized TypeScript and MERN stack to build this. Used JWT for user authentication, moreover kept a record of IP addresses of anonymous voters along with user ID of registered users to prevent them from casting multiple votes. For real-time updates and reflection on those updates I used Socket.IO
 
 ## Demo
 
