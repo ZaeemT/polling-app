@@ -162,7 +162,7 @@ class PollService {
         );
 
         if (result) {
-            httpServer.io.to(`poll-${poll.id}`).emit("pollUpdated", {result});
+            httpServer.io.to(`poll-${poll.id}`).emit("pollUpdated", result);
             return Utils.getResponse("Vote registered successfully", 200, result);
         } else {
             return Utils.getResponse("Vote failed", 500);

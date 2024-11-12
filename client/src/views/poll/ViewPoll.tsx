@@ -57,7 +57,8 @@ export default function PollDetail() {
 
         socket.emit('joinPoll', id)
 
-        socket.on('pollUpdate', (updatedPoll: Poll) => {
+        socket.on('pollUpdated', (updatedPoll: Poll) => {
+            console.log('Received updated poll:', updatedPoll);
             setPoll(updatedPoll)
         })
 
@@ -66,6 +67,10 @@ export default function PollDetail() {
             socket.disconnect()
         }
     }, [id, toast])
+
+    useEffect(()=>{
+        // console.log('Poll state updated:', poll);
+    },[poll])
 
     const handleVote = async () => {
         if (!selectedOption) return
