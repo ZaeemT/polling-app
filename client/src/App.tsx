@@ -8,6 +8,7 @@ import SignUp from './views/auth/Register'
 import Navbar from './components/Navbar'
 import Polls from './views/poll/Polls'
 import AddPoll from './views/poll/AddPoll'
+import PollDetail from './views/poll/ViewPoll'
 
 function App() {
   return (
@@ -22,13 +23,14 @@ function App() {
                 <Route path='/login' element={<SignIn />} />
                 <Route path='/register' element={<SignUp />} />
                 <Route
-                path="/create-poll"
-                element={
-                  <ProtectedRoute>
-                    <AddPoll />
-                  </ProtectedRoute>
-                }
-              />
+                  path="/create-poll"
+                  element={
+                    <ProtectedRoute>
+                      <AddPoll />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path='/polls/:id' element={<PollDetail/>} />
               </Routes>
             </main>
             <Toaster />

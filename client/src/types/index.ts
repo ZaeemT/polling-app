@@ -11,11 +11,11 @@ export interface Poll {
     id?: string
     title: string
     description: string
-    imageUrl: string
+    image: string
     originalImageSize: number
     optimizedImageSize: number
     options: { text: string; votes: number }[]
-    creator: string
+    user_id: string
     isActive: boolean
     createdAt?: Date
     anonymousVotes: string[]

@@ -11,4 +11,5 @@ export const apiUrl = {
   register: 'register',
   poll: 'poll',
   create_poll: 'poll/create-poll',
+  vote: 'poll/:id/vote'
 }

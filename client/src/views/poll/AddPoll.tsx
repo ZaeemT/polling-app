@@ -58,7 +58,7 @@ export default function AddPoll() {
                 title: 'Poll Created',
                 description: 'Your poll has been successfully created.',
             })
-            navigate(`/polls/${response.data._id}`)
+            navigate(`/polls/${response.data.poll.id}`)
         } catch (error) {
             toast({
                 title: 'Error',
