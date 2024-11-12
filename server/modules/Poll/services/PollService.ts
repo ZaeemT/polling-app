@@ -101,37 +101,62 @@ class PollService {
         }
         const pollOptions = options.map((option: any) => ({ text: option, votes: 0 }));
 
-        const {
-            optimizedImage,
-            initialSize,
-            optimizedSize
-        } = await optimizeImage(image);
+        if (image) {
+            const {
+                optimizedImage,
+                initialSize,
+                optimizedSize
+            } = await optimizeImage(image);
 
-        const updatePoll: Partial<IPoll> = {
-            title,
-            description,
-            options: pollOptions,
-            image: optimizedImage,
-            imageType: imageType,
-            originalImageSize: initialSize,
-            optimizedImageSize: optimizedSize,
-            // user_id: user._id,
-            // createdAt: new Date(),
-            updatedAt: new Date(),
-            // user_id: user.id,
-        }
+            const updatePoll: Partial<IPoll> = {
+                title,
+                description,
+                options: pollOptions,
+                image: optimizedImage,
+                imageType: imageType,
+                originalImageSize: initialSize,
+                optimizedImageSize: optimizedSize,
+                // user_id: user._id,
+                // createdAt: new Date(),
+                updatedAt: new Date(),
+                // user_id: user.id,
+            }
 
-        const poll = await db.polls.findOneAndUpdate(
-            { id },
-            { $set: updatePoll },
-            { returnDocument: 'after' }
-        );
+            const poll = await db.polls.findOneAndUpdate(
+                { id },
+                { $set: updatePoll },
+                { returnDocument: 'after' }
+            );
 
-        if (poll) {
-            const response = { poll };
-            return Utils.getResponse("Poll updated successfully", 201, response);
+            if (poll) {
+                const response = { poll };
+                return Utils.getResponse("Poll updated successfully", 201, response);
+            } else {
+                return Utils.getResponse("Poll update failed", 500);
+            }
         } else {
-            return Utils.getResponse("Poll update failed", 500);
+            const updatePoll: Partial<IPoll> = {
+                title,
+                description,
+                options: pollOptions,
+                // user_id: user._id,
+                // createdAt: new Date(),
+                updatedAt: new Date(),
+            }
+
+
+            const poll = await db.polls.findOneAndUpdate(
+                { id },
+                { $set: updatePoll },
+                { returnDocument: 'after' }
+            );
+
+            if (poll) {
+                const response = { poll };
+                return Utils.getResponse("Poll updated successfully", 201, response);
+            } else {
+                return Utils.getResponse("Poll update failed", 500);
+            }
         }
     }
 

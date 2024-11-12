@@ -14,8 +14,8 @@ export interface UpdatePollDto {
     title: string;
     description: string;
     options: string[];
-    image: Buffer;
-    imageType: string;
+    image?: Buffer;
+    imageType?: string;
     // user: IUser;
 }
 

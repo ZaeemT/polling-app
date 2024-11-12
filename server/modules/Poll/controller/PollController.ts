@@ -37,15 +37,15 @@ class PollController {
     }
 
     updatePoll = async (req: Request, res: Response) => {
-        if (!req.file) {
-            return res.status(400).json({ message: "Image file is required" });
-        }
+        // if (!req.file) {
+        //     return res.status(400).json({ message: "Image file is required" });
+        // }
 
-        const pollData: UpdatePollDto = {
+        const pollData: UpdatePollDto = req.file ? {
             ...req.body,
-            image: req.file.buffer,
-            imageType: req.file.mimetype,
-        };
+            image: req?.file.buffer,
+            imageType: req?.file.mimetype,
+        } : req.body;
 
         const { status_code, body } = await pollService.updatePoll(req.params.id, pollData, req.user);
         return res.status(status_code).json(body);
