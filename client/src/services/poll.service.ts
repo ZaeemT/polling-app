@@ -1,5 +1,5 @@
 import { apiUrl } from '../utils/constants';
-import { DELETE, GET, POST } from './api.service.wrapper';
+import { DELETE, GET, POST, PUT } from './api.service.wrapper';
 
 export const GetPolls = async () => {
     const response = await GET(apiUrl.poll);
@@ -28,5 +28,10 @@ export const VotePoll = async  (id: string, data: any) => {
 
 export const DeletePoll = async (id: string) => {
     const response = await DELETE(apiUrl.poll, id);
+    return response;
+}
+
+export const UpdatePoll = async (id: string, data: any) => {
+    const response = await PUT(apiUrl.poll, id, data);
     return response;
 }

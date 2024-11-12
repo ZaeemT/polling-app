@@ -9,6 +9,7 @@ import Navbar from './components/Navbar'
 import Polls from './views/poll/Polls'
 import AddPoll from './views/poll/AddPoll'
 import PollDetail from './views/poll/ViewPoll'
+import EditPoll from './views/poll/EditPoll'
 
 function App() {
   return (
@@ -30,7 +31,16 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path='/polls/:id' element={<PollDetail/>} />
+                <Route
+                  path="/edit-poll/:id"
+                  element={
+                    <ProtectedRoute>
+                      <EditPoll />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path='/polls/:id' element={<PollDetail />} />
+
               </Routes>
             </main>
             <Toaster />
