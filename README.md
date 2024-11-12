@@ -21,7 +21,7 @@ Go to the project directory
   cd polling-app
 ```
 
-Go to client-side of project
+Go to client-side of the project
 
 ```bash
   cd client
@@ -39,7 +39,7 @@ Start the client-side
   npm run dev
 ```
 
-Similarly staying at the project directory, open another terminal to go to server-side of the project.
+Similarly staying in the project directory, open another terminal to go to server-side of the project.
 ```bash
   cd server
 ```
@@ -56,4 +56,4 @@ Start the server-side
   npm run dev
 ```
 
-Look at .env.example in server folder make your own .env file that is needed to this project.
+Look at the .env.example in the server folder and create your own .env file, which is needed to run this project.
